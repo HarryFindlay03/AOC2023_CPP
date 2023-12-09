@@ -3,19 +3,21 @@
 #include <string>
 #include <vector>
 
-int p1(std::string filename);
+int answer(std::string, int);
 
 typedef std::vector<std::vector<int> > oasis_t;
 
 int main()
 {
-    int res_1 = p1("9/input.txt");
+    int res_1 = answer("9/input.txt", 1);
+    int res_2 = answer("9/input.txt", 2);
 
     std::cout << "RES 1: " << res_1 << std::endl;
+    std::cout << "RES 2: " << res_2 << std::endl;
     return 0;
 }
 
-int p1(std::string filename)
+int answer(std::string filename, int p)
 {
     std::string line;
     std::ifstream myfile(filename);
@@ -78,10 +80,18 @@ int p1(std::string filename)
 
         // extraction
         oasis_t::iterator diff_it;
-        for(diff_it = difference_vectors.end()-2; diff_it != difference_vectors.begin()-1; --diff_it)
-            (diff_it)->push_back((diff_it+1)->back() + (diff_it)->back());
-
-        res += difference_vectors[0].back();
+        if(p == 1)
+        {
+            for (diff_it = difference_vectors.end() - 2; diff_it != difference_vectors.begin() - 1; --diff_it)
+                (diff_it)->push_back((diff_it + 1)->back() + (diff_it)->back());
+            res += difference_vectors[0].back();
+        }
+        else
+        {
+            for (diff_it = difference_vectors.end() - 2; diff_it != difference_vectors.begin() - 1; --diff_it)
+                (diff_it)->insert((diff_it)->begin(), ((diff_it)->front() - (diff_it + 1)->front()));
+            res += difference_vectors[0].front();
+        }
     }
 
     return res;
